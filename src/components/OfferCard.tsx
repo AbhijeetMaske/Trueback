@@ -22,10 +22,13 @@ export default function OfferCard({ offer, merchant, onActivate }: OfferCardProp
   return (
     <motion.div
       whileHover={{ y: -4 }}
-      className="bg-white rounded-3xl p-6 shadow-sm border border-brand-slate-100 flex flex-col gap-4 relative overflow-hidden group"
+      className={`bg-white rounded-3xl p-6 shadow-sm border ${offer.isFeatured ? 'border-brand-indigo ring-1 ring-brand-indigo/20 shadow-indigo-100' : 'border-brand-slate-100'} flex flex-col gap-4 relative overflow-hidden group`}
     >
+      {offer.isFeatured && (
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-indigo via-emerald-400 to-brand-indigo animate-pulse" />
+      )}
       {offer.label && (
-        <div className={`absolute top-0 right-0 ${offer.label.toLowerCase().includes('festival') ? 'bg-brand-red text-white' : 'bg-brand-amber text-slate-900'} text-[9px] font-black px-4 py-1 rounded-bl-2xl uppercase tracking-[0.2em] z-10 shadow-sm`}>
+        <div className={`absolute top-0 right-0 ${offer.label.toLowerCase().includes('urgent') ? 'bg-brand-red text-white' : offer.label.toLowerCase().includes('festival') ? 'bg-brand-red text-white' : 'bg-brand-amber text-slate-900'} text-[9px] font-black px-4 py-1 rounded-bl-2xl uppercase tracking-[0.2em] z-10 shadow-sm transition-colors group-hover:scale-105 duration-300`}>
           {offer.label}
         </div>
       )}

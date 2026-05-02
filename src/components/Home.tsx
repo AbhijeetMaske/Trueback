@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Search, SlidersHorizontal, Zap, ShieldCheck, ArrowRight } from 'lucide-react';
 import { OFFERS, MERCHANTS } from '../constants';
 import OfferCard from './OfferCard';
@@ -17,6 +18,14 @@ interface HomeProps {
 export default function Home({ onActivate, onNavigate }: HomeProps) {
   const [selectedCategory, setSelectedCategory] = useState('All Brands');
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeStep, setActiveStep] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % 4);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const categories = [
     { name: 'Electronics', icon: '📱', color: 'bg-indigo-50 text-brand-indigo' },
@@ -97,28 +106,103 @@ export default function Home({ onActivate, onNavigate }: HomeProps) {
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5 pointer-events-none" />
         </div>
 
-        {/* Categories Grid */}
-        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-4 -mx-1 px-1">
-          <button 
-            onClick={() => setSelectedCategory('All Brands')}
-            className={`flex items-center gap-3 transition-all px-8 py-4 rounded-full shrink-0 group ${selectedCategory === 'All Brands' ? 'bg-brand-indigo shadow-lg shadow-indigo-100' : 'bg-white border border-brand-slate-100 hover:border-brand-indigo/30'}`}
-          >
-            <span className={`text-[10px] font-black uppercase tracking-widest ${selectedCategory === 'All Brands' ? 'text-white' : 'text-slate-400'}`}>All Brands</span>
-          </button>
-          {categories.map((cat) => (
-            <button
-              key={cat.name}
-              onClick={() => setSelectedCategory(cat.name)}
-              className={`flex items-center gap-3 transition-all px-8 py-4 rounded-full shrink-0 group ${selectedCategory === cat.name ? 'bg-brand-indigo shadow-lg shadow-indigo-100' : 'bg-white border border-brand-slate-100 hover:border-brand-indigo/30'}`}
-            >
-              <span className={`text-lg`}>{cat.icon}</span>
-              <span className={`text-[10px] font-black uppercase tracking-widest ${selectedCategory === cat.name ? 'text-white' : 'text-slate-400'}`}>
-                {cat.name}
-              </span>
-            </button>
-          ))}
-        </div>
       </header>
+
+      {/* The Audit Protocol Banner - Responsive Integration */}
+      <section className="bg-slate-900 rounded-[2.5rem] p-6 sm:p-10 text-white relative overflow-hidden shadow-2xl">
+        <div className="relative z-10 flex flex-col gap-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col gap-1 text-left">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-brand-emerald rounded-full animate-pulse" />
+                <h2 className="font-display font-black text-lg sm:text-xl uppercase tracking-widest italic">The Audit Protocol</h2>
+              </div>
+              <p className="text-slate-400 text-[10px] sm:text-xs font-medium">Verify your session via our neural ledger sequence.</p>
+            </div>
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-brand-indigo/10 rounded-full border border-brand-indigo/20 self-start sm:self-center">
+              <ShieldCheck size={12} className="text-brand-indigo" />
+              <span className="text-[9px] font-black uppercase tracking-widest text-brand-indigo">Protocol Active</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 relative">
+            {[
+              { id: '01', title: 'Select', icon: Search },
+              { id: '02', title: 'Sync', icon: Zap },
+              { id: '03', title: 'Order', icon: ShieldCheck },
+              { id: '04', title: 'Verify', icon: ArrowRight }
+            ].map((step, i) => (
+              <div key={step.id} className="relative group flex flex-col items-center text-center gap-3">
+                <div className="relative">
+                  <motion.div 
+                    animate={{ 
+                      backgroundColor: activeStep === i ? '#4f46e5' : 'rgba(255, 255, 255, 0.05)',
+                      borderColor: activeStep === i ? '#4f46e5' : 'rgba(255, 255, 255, 0.1)',
+                      scale: activeStep === i ? 1.05 : 1
+                    }}
+                    className="w-12 h-12 sm:w-16 sm:h-16 backdrop-blur-xl rounded-xl sm:rounded-2xl flex items-center justify-center text-white border relative z-10 transition-all duration-500"
+                  >
+                    <step.icon size={20} className="sm:w-6 sm:h-6" />
+                  </motion.div>
+                  
+                  <motion.div 
+                    animate={{ 
+                      scale: activeStep === i ? 1.1 : 1,
+                      backgroundColor: activeStep === i ? '#4f46e5' : '#1e293b'
+                    }}
+                    className="absolute -top-2 -right-2 w-6 h-6 sm:w-8 sm:h-8 rounded-lg flex items-center justify-center text-[8px] sm:text-[10px] font-black shadow-lg z-20 border border-white/10"
+                  >
+                    {step.id}
+                  </motion.div>
+
+                  <AnimatePresence>
+                    {activeStep === i && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1.2 }}
+                        exit={{ opacity: 0, scale: 1.5 }}
+                        className="absolute inset-0 bg-brand-indigo/30 rounded-2xl blur-xl -z-0"
+                      />
+                    )}
+                  </AnimatePresence>
+                </div>
+                <motion.h4 
+                  animate={{ color: activeStep === i ? '#ffffff' : '#64748b' }}
+                  className="text-[10px] sm:text-xs font-black uppercase tracking-widest transition-colors"
+                >
+                  {step.title}
+                </motion.h4>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Technical Background Details */}
+        <div className="absolute top-0 right-0 w-48 h-48 bg-brand-indigo/10 rounded-full blur-[100px] -mr-24 -mt-24 pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 bg-brand-emerald/5 rounded-full blur-[100px] -ml-24 -mb-24 pointer-events-none" />
+      </section>
+
+      {/* Categories Grid */}
+      <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 -mx-1 px-1">
+        <button 
+          onClick={() => setSelectedCategory('All Brands')}
+          className={`flex items-center gap-3 transition-all px-6 py-3 rounded-full shrink-0 group border ${selectedCategory === 'All Brands' ? 'bg-brand-indigo shadow-lg shadow-indigo-100 border-brand-indigo text-white' : 'bg-white border-brand-slate-100 text-slate-400 hover:border-brand-indigo/30'}`}
+        >
+          <span className="text-[10px] font-black uppercase tracking-widest">All Brands</span>
+        </button>
+        {categories.map((cat) => (
+          <button
+            key={cat.name}
+            onClick={() => setSelectedCategory(cat.name)}
+            className={`flex items-center gap-3 transition-all px-6 py-3 rounded-full shrink-0 group border ${selectedCategory === cat.name ? 'bg-brand-indigo shadow-lg shadow-indigo-100 border-brand-indigo text-white' : 'bg-white border-brand-slate-100 text-slate-400 hover:border-brand-indigo/30'}`}
+          >
+            <span className="text-sm">{cat.icon}</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">
+              {cat.name}
+            </span>
+          </button>
+        ))}
+      </div>
 
       {/* Flash Deals */}
       {flashOffers.length > 0 && (

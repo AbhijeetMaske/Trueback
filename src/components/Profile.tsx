@@ -9,8 +9,8 @@ import { motion } from 'motion/react';
 
 export default function Profile() {
   const user = {
-    name: 'Abhijeet MSK',
-    email: 'abhijeet.msk@gmail.com',
+    name: 'Abhijeet Maske',
+    email: 'Abhijeet.maske@yahoo.com',
     memberSince: 'Oct 2023',
     accountStatus: 'Enterprise Core',
   };
@@ -28,7 +28,7 @@ export default function Profile() {
         <header className="flex flex-col items-center lg:items-start text-center lg:text-left gap-6 lg:pt-8 bg-white lg:bg-transparent p-6 sm:p-10 lg:p-0 rounded-[2.5rem] sm:rounded-[3.0rem] lg:rounded-none border border-brand-slate-100 lg:border-none shadow-xl shadow-slate-100/50 lg:shadow-none">
           <div className="relative group">
             <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-[2rem] sm:rounded-[2.5rem] bg-brand-indigo flex items-center justify-center text-white text-4xl sm:text-5xl font-bold border-4 border-white shadow-2xl transform transition-transform group-hover:scale-105">
-              JD
+              AM
             </div>
             <div className="absolute -bottom-1 -right-1 sm:-bottom-2 sm:-right-2 w-8 h-8 sm:w-10 sm:h-10 bg-brand-emerald text-white rounded-full flex items-center justify-center border-[3px] sm:border-4 border-white shadow-lg">
               <ShieldCheck size={16} className="sm:w-[18px]" />

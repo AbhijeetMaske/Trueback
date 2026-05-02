@@ -161,7 +161,7 @@ export default function App() {
               onClick={() => setActiveTab('profile')}
               className={`flex items-center gap-3 p-1 rounded-full transition-all border-2 ${activeTab === 'profile' ? 'border-brand-indigo' : 'border-transparent hover:bg-brand-slate-50'}`}
             >
-              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-brand-indigo font-bold shadow-sm whitespace-pre"> JD </div>
+              <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-brand-indigo font-bold shadow-sm whitespace-pre"> AM </div>
             </button>
           </div>
         </header>

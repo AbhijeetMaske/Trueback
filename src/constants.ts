@@ -75,7 +75,7 @@ export const OFFERS: Offer[] = [
   { id: 'o3', merchantId: '3', cashbackPercentage: 8, description: 'Summer Escape Deals', terms: ['Max ₹2000'] },
   { id: 'o4', merchantId: '4', cashbackPercentage: 3, description: 'Apple Student Discount', terms: ['Verified students only'], isLimitedTime: true, expiresAt: '2026-05-04T12:00:00Z' },
   { id: 'o5', merchantId: '5', cashbackPercentage: 7, description: 'Fashion Forward Offer', terms: ['Selected brands'] },
-  { id: 'o6', merchantId: '6', cashbackPercentage: 12, description: 'Hotel Flash Sale', terms: ['Valid 48h'], isLimitedTime: true, label: 'Flash Sale', expiresAt: '2026-05-03T09:00:00Z' },
+  { id: 'o6', merchantId: '6', cashbackPercentage: 12, description: 'Hotel Flash Sale', terms: ['Valid 48h'], isLimitedTime: true, label: 'URGENT DEAL', isFeatured: true, expiresAt: '2026-05-02T19:52:57Z' },
   { id: 'o7', merchantId: '7', cashbackPercentage: 6, description: 'Beauty Rewards Program', terms: ['All brands'] },
   { id: 'o8', merchantId: '8', cashbackPercentage: 18, description: 'Diwali Sparkle Sale', terms: ['No min purchase'], isFeatured: true, label: 'Festival Offer' },
   { id: 'o9', merchantId: '9', cashbackPercentage: 12, description: 'Big Billion Bonus', terms: ['Select sellers'], isFeatured: true, label: 'Festival Special' },

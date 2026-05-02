@@ -22,24 +22,38 @@ import { motion, AnimatePresence } from 'motion/react';
 import { CounterUp } from './CounterUp';
 
 export default function Wallet() {
-  const [balance, setBalance] = useState(3249.44);
-  const pending = 1452.34;
+  const [balance, setBalance] = useState(8422.50);
+  const pending = 2140.30;
   const [isWithdrawing, setIsWithdrawing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState('');
 
-  const history = [
-    { id: 1, type: 'Withdrawal', amount: 2000, date: 'Apr 25, 2026', status: 'Completed', method: 'Bank Transfer' },
-    { id: 2, type: 'Cashback Confirmed', amount: 450.88, date: 'Apr 20, 2026', status: 'Added', merchant: 'Nike' },
-    { id: 3, type: 'FastCash Payout', amount: 1200, date: 'Apr 12, 2026', status: 'Completed', method: 'Instant' },
-    { id: 4, type: 'Cashback Confirmed', amount: 852.44, date: 'Apr 10, 2026', status: 'Added', merchant: 'Amazon' },
-  ];
+  const [transactions, setTransactions] = useState([
+    { id: 1, type: 'Withdrawal', amount: 4500, date: 'May 01, 2026', status: 'Completed', method: 'Bank Transfer' },
+    { id: 2, type: 'Cashback Confirmed', amount: 1240.50, date: 'Apr 28, 2026', status: 'Added', merchant: 'Adidas' },
+    { id: 3, type: 'Cashback Confirmed', amount: 850.00, date: 'Apr 25, 2026', status: 'Added', merchant: 'Samsung' },
+    { id: 4, type: 'FastCash Payout', amount: 3200, date: 'Apr 20, 2026', status: 'Completed', method: 'Instant' },
+    { id: 5, type: 'Cashback Confirmed', amount: 2100.44, date: 'Apr 15, 2026', status: 'Added', merchant: 'Apple' },
+    { id: 6, type: 'Cashback Confirmed', amount: 542.20, date: 'Apr 10, 2026', status: 'Added', merchant: 'Myntra' },
+  ]);
 
   const handleWithdraw = () => {
-    if (!withdrawAmount || parseFloat(withdrawAmount) > balance) return;
+    const amount = parseFloat(withdrawAmount);
+    if (!withdrawAmount || amount > balance || amount <= 0) return;
     setIsWithdrawing(true);
+
+    const newTx = {
+      id: Date.now(),
+      type: 'Withdrawal',
+      amount: amount,
+      date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }),
+      status: 'Processing',
+      method: 'Bank Transfer'
+    };
+
     setTimeout(() => {
-      setBalance(prev => prev - parseFloat(withdrawAmount));
+      setBalance(prev => prev - amount);
+      setTransactions(prev => [newTx, ...prev]);
       setIsWithdrawing(false);
       setShowSuccess(true);
       setWithdrawAmount('');
@@ -164,7 +178,7 @@ export default function Wallet() {
               </div>
 
               <div className="grid gap-3">
-                {history.map((item) => (
+                {transactions.map((item) => (
                   <div 
                     key={item.id} 
                     className="bg-white p-6 rounded-[2rem] border border-brand-slate-100 flex justify-between items-center shadow-sm hover:border-brand-indigo/20 transition-all cursor-pointer group"

@@ -132,15 +132,7 @@ export default function App() {
         </button>
 
         {!isSidebarCollapsed && (
-          <div className="p-4">
-            <div className="bg-brand-slate-800 rounded-2xl p-4">
-              <p className="text-[10px] text-slate-400 uppercase tracking-widest mb-1 font-bold">Trust Indicator</p>
-              <p className="text-xs font-semibold">98.4% Confidence</p>
-              <div className="w-full bg-slate-700 h-1 rounded-full mt-2 overflow-hidden">
-                <div className="bg-brand-emerald h-1 w-3/4 rounded-full"></div>
-              </div>
-            </div>
-          </div>
+          <div className="p-4" />
         )}
       </aside>
 

@@ -29,6 +29,7 @@ export default function Wallet() {
   const [withdrawAmount, setWithdrawAmount] = useState('');
 
   const [transactions, setTransactions] = useState([
+    { id: 7, type: 'Cashback Pending', amount: 2140.30, date: 'May 02, 2026', status: 'Pending', merchant: 'Apple' },
     { id: 1, type: 'Withdrawal', amount: 4500, date: 'May 01, 2026', status: 'Completed', method: 'Bank Transfer' },
     { id: 2, type: 'Cashback Confirmed', amount: 1240.50, date: 'Apr 28, 2026', status: 'Added', merchant: 'Adidas' },
     { id: 3, type: 'Cashback Confirmed', amount: 850.00, date: 'Apr 25, 2026', status: 'Added', merchant: 'Samsung' },
@@ -185,14 +186,20 @@ export default function Wallet() {
                   >
                     <div className="flex gap-4 items-center">
                       <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-transform group-hover:scale-105 ${
-                        item.type === 'Withdrawal' || item.type === 'FastCash Payout' ? 'bg-slate-900 text-white shadow-lg shadow-slate-100' : 'bg-brand-slate-50 text-brand-indigo'
+                        item.type === 'Withdrawal' || item.type === 'FastCash Payout' 
+                          ? 'bg-slate-900 text-white shadow-lg shadow-slate-100' 
+                          : item.status === 'Pending'
+                            ? 'bg-brand-amber text-slate-900 shadow-lg shadow-amber-100'
+                            : 'bg-brand-slate-50 text-brand-indigo'
                       }`}>
                         {item.type === 'Withdrawal' ? (
                           <Banknote size={24} strokeWidth={1.5} />
                         ) : item.type === 'FastCash Payout' ? (
                           <Zap size={24} fill="currentColor" />
+                        ) : item.status === 'Pending' ? (
+                          <Clock size={24} strokeWidth={2} />
                         ) : (
-                          <ArrowDownRight size={24} className="text-brand-emerald" />
+                          <CheckCircle2 size={24} className="text-brand-emerald" />
                         )}
                       </div>
                       <div className="text-left">
@@ -203,12 +210,26 @@ export default function Wallet() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className={`text-lg font-display font-black ${item.type === 'Withdrawal' || item.type === 'FastCash Payout' ? 'text-slate-900' : 'text-brand-emerald'}`}>
+                      <p className={`text-lg font-display font-black ${
+                        item.type === 'Withdrawal' || item.type === 'FastCash Payout' 
+                          ? 'text-slate-900' 
+                          : item.status === 'Pending'
+                            ? 'text-brand-amber'
+                            : 'text-brand-emerald'
+                      }`}>
                         {item.type === 'Withdrawal' || item.type === 'FastCash Payout' ? '-' : '+'}₹{item.amount.toLocaleString()}
                       </p>
                       <div className="flex items-center gap-1.5 justify-end mt-1">
-                        <CheckCircle2 size={10} className="text-brand-emerald" />
-                        <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">{item.status}</span>
+                        {item.status === 'Processing' || item.status === 'Pending' ? (
+                          <Clock size={10} className="text-brand-amber" />
+                        ) : (
+                          <CheckCircle2 size={10} className="text-brand-emerald" />
+                        )}
+                        <span className={`text-[9px] font-black uppercase tracking-widest ${
+                          item.status === 'Pending' || item.status === 'Processing' ? 'text-brand-amber' : 'text-slate-300'
+                        }`}>
+                          {item.status}
+                        </span>
                       </div>
                     </div>
                   </div>

@@ -4,7 +4,7 @@
  */
 
 import React from 'react';
-import { CheckCircle2, Clock, AlertCircle, TrendingUp } from 'lucide-react';
+import { CheckCircle2, Clock, AlertCircle, TrendingUp, Activity } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Transaction, CashbackStatus } from '../types';
 import { MERCHANTS } from '../constants';
@@ -24,9 +24,27 @@ const statusColors: Record<CashbackStatus, { color: string; bg: string; icon: an
 export default function LiveLedger({ transactions }: LiveLedgerProps) {
   return (
     <div className="flex flex-col gap-6 pb-24">
-      <header className="flex flex-col gap-2 md:hidden">
-        <h1 className="font-display text-2xl font-bold">Audit Ledger</h1>
-        <p className="text-slate-500 text-sm">Transparency ledger for every reward handshake.</p>
+      <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 px-1">
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2 text-brand-indigo">
+            <Activity size={16} />
+            <span className="text-[10px] font-black uppercase tracking-[0.2em]">Live Network Monitoring</span>
+          </div>
+          <h1 className="font-display font-black text-4xl text-slate-900 tracking-tight uppercase italic">
+            Audit <span className="text-brand-indigo">Ledger.</span>
+          </h1>
+          <p className="text-slate-500 text-sm font-medium max-w-sm">Transparency ledger for every reward handshake.</p>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="bg-white border border-brand-slate-100 p-4 rounded-2xl flex flex-col gap-1 min-w-[140px]">
+            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">Global Nodes</span>
+            <span className="text-xl font-display font-black text-slate-900">4,892</span>
+          </div>
+          <div className="bg-brand-indigo/10 border border-brand-indigo/20 p-4 rounded-2xl flex flex-col gap-1 min-w-[140px]">
+            <span className="text-[9px] font-black text-brand-indigo uppercase tracking-widest leading-none">Sync Status</span>
+            <span className="text-xl font-display font-black text-brand-indigo">Active</span>
+          </div>
+        </div>
       </header>
 
       {/* Desktop Stat Cards from Design */}

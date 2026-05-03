@@ -76,7 +76,7 @@ export default function CashbackTracker({ onNavigate }: CashbackTrackerProps) {
                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">Compliance Secured</span>
               </div>
               <h1 className="font-display font-black text-4xl text-slate-900 tracking-tight uppercase italic">
-                Audit <span className="text-brand-indigo">Ledger.</span>
+                Cashback <span className="text-brand-indigo">Status.</span>
               </h1>
               <p className="text-slate-500 text-sm font-medium max-w-sm">Every internal handshake and merchant audit verified in real-time.</p>
             </div>

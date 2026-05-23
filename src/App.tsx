@@ -82,7 +82,7 @@ export default function App() {
 
   const sidebarTabs = [
     { id: 'home', icon: HomeIcon, label: 'Overview' },
-    { id: 'tracking', icon: ClipboardCheck, label: 'Cashback Status' },
+    { id: 'tracking', icon: ClipboardCheck, label: 'TrackSure' },
     { id: 'ledger', icon: Activity, label: 'Audit Ledger' },
     { id: 'claims', icon: LifeBuoy, label: 'Claims' },
     { id: 'wallet', icon: WalletIcon, label: 'Wallet' },

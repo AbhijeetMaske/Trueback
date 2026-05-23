@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { ExternalLink, ShieldCheck, Clock } from 'lucide-react';
 import { Offer, Merchant } from '../types';
 import { motion } from 'motion/react';
@@ -17,7 +17,16 @@ interface OfferCardProps {
 }
 
 export default function OfferCard({ offer, merchant, onActivate }: OfferCardProps) {
-  const expiryDate = offer.expiresAt ? new Date(offer.expiresAt) : new Date(Date.now() + 24 * 60 * 60 * 1000);
+  // Requirement: Hotel.com (Hotels.com) offers must include a 30-minute countdown timer that resets each time the page is refreshed.
+  const isHotelsCom = merchant.id === '6' || merchant.name.toLowerCase().includes('hotels.com');
+  
+  const hotelsExpiry = useMemo(() => new Date(Date.now() + 30 * 60 * 1000), []);
+  
+  const expiryDate = isHotelsCom
+    ? hotelsExpiry
+    : (offer.expiresAt ? new Date(offer.expiresAt) : new Date(Date.now() + 24 * 60 * 60 * 1000));
+
+  const showTimer = offer.isLimitedTime || isHotelsCom;
 
   return (
     <motion.div
@@ -27,19 +36,27 @@ export default function OfferCard({ offer, merchant, onActivate }: OfferCardProp
       {offer.isFeatured && (
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-brand-indigo via-emerald-400 to-brand-indigo animate-pulse" />
       )}
-      {offer.label && (
+      
+      {/* Label logic - Prioritize Hotels.com countdown context if applicable */}
+      {isHotelsCom && (
+        <div className="absolute top-0 right-0 bg-brand-red text-white text-[9px] font-black px-4 py-1 rounded-bl-2xl uppercase tracking-[0.2em] z-10 shadow-sm animate-pulse">
+          FLASH EXPIRE
+        </div>
+      )}
+
+      {offer.label && !isHotelsCom && (
         <div className={`absolute top-0 right-0 ${offer.label.toLowerCase().includes('urgent') ? 'bg-brand-red text-white' : offer.label.toLowerCase().includes('festival') ? 'bg-brand-red text-white' : 'bg-brand-amber text-slate-900'} text-[9px] font-black px-4 py-1 rounded-bl-2xl uppercase tracking-[0.2em] z-10 shadow-sm transition-colors group-hover:scale-105 duration-300`}>
           {offer.label}
         </div>
       )}
 
-      {offer.isLimitedTime && !offer.label && (
+      {offer.isLimitedTime && !offer.label && !isHotelsCom && (
         <div className="absolute top-0 right-0 bg-slate-900 text-white text-[9px] font-black px-4 py-1 rounded-bl-2xl uppercase tracking-[0.2em] z-10 shadow-sm">
           Limited Time
         </div>
       )}
 
-      {offer.isFeatured && !offer.label && !offer.isLimitedTime && (
+      {offer.isFeatured && !offer.label && !offer.isLimitedTime && !isHotelsCom && (
         <div className="absolute top-0 right-0 bg-brand-amber text-slate-900 text-[10px] font-bold px-4 py-1 rounded-bl-2xl uppercase tracking-widest z-10 shadow-sm">
           Top Rated
         </div>
@@ -69,11 +86,13 @@ export default function OfferCard({ offer, merchant, onActivate }: OfferCardProp
         </p>
       </div>
 
-      {offer.isLimitedTime && (
-        <div className="bg-brand-indigo/[0.03] border border-brand-indigo/10 rounded-2xl p-4 flex flex-col gap-3">
-          <div className="flex items-center gap-2 text-brand-indigo">
+      {showTimer && (
+        <div className={`${isHotelsCom ? 'bg-red-50 border-red-100' : 'bg-brand-indigo/[0.03] border-brand-indigo/10'} border rounded-2xl p-4 flex flex-col gap-3 transition-colors`}>
+          <div className={`flex items-center gap-2 ${isHotelsCom ? 'text-brand-red' : 'text-brand-indigo'}`}>
             <Clock size={12} className="animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-widest">Offer Expires In</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">
+              {isHotelsCom ? 'Hot Offer Expires In' : 'Offer Expires In'}
+            </span>
           </div>
           <CountdownTimer expiryDate={expiryDate} />
         </div>
@@ -87,7 +106,7 @@ export default function OfferCard({ offer, merchant, onActivate }: OfferCardProp
         
         <button
           onClick={() => onActivate(offer)}
-          className="w-full bg-brand-slate-900 hover:bg-brand-indigo text-white font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-xl shadow-slate-200"
+          className={`w-full ${isHotelsCom ? 'bg-brand-red hover:bg-red-700 shadow-red-100' : 'bg-brand-slate-900 hover:bg-brand-indigo shadow-slate-200'} text-white font-bold py-4 rounded-2xl transition-all flex items-center justify-center gap-2 shadow-xl`}
         >
           Shop Now
         </button>

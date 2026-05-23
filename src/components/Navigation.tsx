@@ -14,7 +14,7 @@ interface NavigationProps {
 export default function Navigation({ activeTab, setActiveTab }: NavigationProps) {
   const tabs = [
     { id: 'home', icon: Home, label: 'Explore' },
-    { id: 'tracking', icon: ClipboardCheck, label: 'Status' },
+    { id: 'tracking', icon: ClipboardCheck, label: 'TrackSure' },
     { id: 'claims', icon: LifeBuoy, label: 'Claims' },
     { id: 'wallet', icon: Wallet, label: 'Wallet' },
   ];
